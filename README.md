@@ -21,7 +21,7 @@ NGINX web sunucusu loglarını analiz eden ve doğal dil sorguları ile sorgulam
 
 1. **Repository'yi klonlayın**
 
-git clone https://github.com/kullanici_adi/nginx-log-analyzer.git
+git clone https://github.com/dogukanakbas/log-analiz.git
 cd nginx-log-analyzer
 
 2. **Sanal ortam oluşturun ve aktive edin**
