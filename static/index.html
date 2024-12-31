@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Analiz Sistemi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        #questionInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #answer {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Log Analiz Sistemi</h1>
+    <div class="container">
+        <button onclick="initializeSystem()">Sistemi Başlat</button>
+        <div style="margin-top: 20px;">
+            <textarea id="questionInput" placeholder="Sorunuzu buraya yazın..." rows="3"></textarea>
+            <button onclick="askQuestion()">Sor</button>
+        </div>
+        <div id="answer"></div>
+    </div>
+
+    <script>
+        async function initializeSystem() {
+            try {
+                const response = await fetch('http://localhost:8000/initialize', {
+                    method: 'POST'
+                });
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                alert('Hata: ' + error.message);
+            }
+        }
+
+        async function askQuestion() {
+            const question = document.getElementById('questionInput').value;
+            const answerDiv = document.getElementById('answer');
+            
+            try {
+                const response = await fetch('http://localhost:8000/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: question })
+                });
+                const data = await response.json();
+                answerDiv.textContent = data.answer;
+            } catch (error) {
+                answerDiv.textContent = 'Hata: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html> 
